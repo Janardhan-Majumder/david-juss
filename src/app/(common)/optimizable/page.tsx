@@ -3,8 +3,15 @@ import Advertise from "@/components/Home/Advertise";
 import NavigateButton from "@/components/ui/NavigateButton";
 import Image from "next/image";
 import React from "react";
+type Params = Promise<{ id: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-const page = () => {
+export type TPageProps = { params: Params; searchParams: SearchParams };
+
+const page = async (props: TPageProps) => {
+  const { email } = await props.searchParams;
+  console.log(email);
+
   const text = "Congratulations";
   const items = [
     {
@@ -82,7 +89,7 @@ const page = () => {
         </div>
         <div className="flex justify-center pt-8">
           <NavigateButton
-            forword="/optimization"
+            forword={`/optimization?email=${email}`}
             label="START OPTIMIZATION"
             className="max-w-xs lg:max-w-md"
           />

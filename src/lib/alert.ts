@@ -25,7 +25,7 @@ export const successAlert = ({
 };
 export const errorAlert = ({
   error,
-  icon,
+  // icon ,
 }: {
   error: TResError;
   icon?: string;

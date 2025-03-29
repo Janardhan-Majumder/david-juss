@@ -1,21 +1,46 @@
 "use client";
-// @ts-nocheck
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState, use } from "react";
 import Container from "@/components/Container";
 import Advertise from "@/components/Home/Advertise";
-import { Button, DatePicker, Form, Input } from "antd";
+import { Button, DatePicker, DatePickerProps, Form, Input } from "antd";
 import Image from "next/image";
-import Signature, { SignatureRef } from "@uiw/react-signature";
+import SignatureCanvas from "@uiw/react-signature";
 
-const Page = () => {
-  const $svg = useRef<SignatureRef>(null);
+type Params = Promise<{ id: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export type TPageProps = { params: Params; searchParams: SearchParams };
+
+const Page = (props: TPageProps) => {
+  const $svg = useRef<SignatureCanvas | null>(null); 
+  const [date, setDate] = useState(null);
+  const { email } = use(props.searchParams);
+  console.log(email, date);
+
+  const onChange: DatePickerProps["onChange"] = (date, dateString: any) => {
+    console.log(dateString);
+    setDate(dateString);
+  };
+
+  // Function to download the signature
+  const handleDownload = () => {
+    if ($svg.current) {
+      const dataUrl = $svg.current.getSignatureDataUrl(); // Get the signature image URL
+      const link = document.createElement("a");
+      link.href = dataUrl; // Set the data URL as the link href
+      link.download = "signature.png"; // Specify the filename for download
+      link.click(); // Trigger the download
+    }
+  };
+
   const handle = () => {
     $svg.current?.clear();
   };
+
   const onFinish = (values: any) => {
     console.log("Form values:", values);
-  };
-  // const text = "Congratulations";
+  }; // Only prints if email is available
+
   const benefitsList = [
     {
       text: "The verification is 100% free and non-binding for you.",
@@ -30,6 +55,7 @@ const Page = () => {
       icon: "check-icon.svg",
     },
   ];
+
   return (
     <>
       <header className="relative">
@@ -55,8 +81,8 @@ const Page = () => {
               />
             </div>
             <p className="text-2xl sm:text-3xl lg:text-4xl text-white leading-normal lg:leading-normal">
-              Don&lsquo;t miss out on potential savings! Complete your details now and
-              take control of your insurance costs.
+              Don&lsquo;t miss out on potential savings! Complete your details
+              now and take control of your insurance costs.
             </p>
             <div className="space-y-4 pt-5">
               {benefitsList.map((item, indx) => (
@@ -74,34 +100,45 @@ const Page = () => {
             </div>
           </div>
           <div className="w-full mx-auto bg-[#3c5267c5] p-6 xl:p-10 rounded-lg border border-yellow-400">
-            {/* <h2 className="text-white text-center text-xl font-bold mb-4">
-            WITHOUT OBLIGATION
-          </h2> */}
-            <Form
-              layout="vertical"
-              onFinish={onFinish}
-              //   style={{ marginTop: 20 }}
-            >
-              <Form.Item name="birth_date" rules={[{ required: true }]}>
+            <Form layout="vertical" onFinish={onFinish}>
+              {/* <Form.Item name="birth_date" rules={[{ required: true }]}>
                 <DatePicker
                   size="large"
                   placeholder="Date of birth"
                   className="w-full"
                   style={{ borderRadius: "2px" }}
                 />
-              </Form.Item>
+              </Form.Item> */}
+
               <Form.Item
-                name="email"
+                name="dateOfBirth"
                 rules={[
-                  { required: true, message: "Email is required!" },
-                  { type: "email", message: "Valid email is required!" },
+                  {
+                    required: true,
+                    message: "Please select your date of birth!",
+                  },
                 ]}
               >
-                <Input size="large" placeholder="Emial" />
+                <DatePicker
+                  onChange={onChange}
+                  size="large"
+                  style={{ width: "100%" }}
+                  type=""
+                  placeholder="Date Of Birth"
+                  disabledDate={(current) =>
+                    current && current.isAfter(new Date())
+                  }
+                />
               </Form.Item>
 
               <Form.Item name="phone" rules={[{ required: true }]}>
                 <Input size="large" placeholder="Phone" />
+              </Form.Item>
+              <Form.Item name="ZIPCodePlace" rules={[{ required: true }]}>
+                <Input size="large" placeholder="ZIP Code Place" />
+              </Form.Item>
+              <Form.Item name="StreetHouseNumber" rules={[{ required: true }]}>
+                <Input size="large" placeholder="Street House Number" />
               </Form.Item>
               <Form.Item
                 label={
@@ -110,7 +147,7 @@ const Page = () => {
                   </span>
                 }
               >
-                <Signature ref={$svg} />
+                <SignatureCanvas ref={$svg} />
               </Form.Item>
               <div className="flex justify-end pb-2">
                 <button
@@ -120,6 +157,7 @@ const Page = () => {
                 >
                   Clear
                 </button>
+                <button onClick={handleDownload}>Download Signature</button>
               </div>
               <Button
                 type="primary"
