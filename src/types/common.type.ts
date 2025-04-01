@@ -8,6 +8,10 @@ export type TCommonProps = {
   id?: string;
 };
 
+type Params = Promise<{ id: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export type TPageProps = { params: Params; searchParams: SearchParams };
 // export type TUserRole = (typeof role)[keyof typeof role];
 
 // export type TSubLinkItem = {

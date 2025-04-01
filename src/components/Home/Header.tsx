@@ -2,39 +2,31 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import Container from "../Container";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Radio,
-  Row,
-
-} from "antd";
+import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row } from "antd";
 import Image from "next/image";
 // import TextAnimation from "../ui/TextAnimation";
 import { useRouter } from "next/navigation";
 // import { span } from "motion/react-client";
 import { errorAlert, successAlert } from "@/lib/alert";
 // const { useBreakpoint } = Grid;
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const Header = () => {
   // const screens = useBreakpoint();
   const router = useRouter();
   const [notOptimizable, setNotOptimizable] = useState(false);
-  const [date, setDate] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // const onChange: DatePickerProps["onChange"] = (date, dateString:any) => {
   //   console.log(dateString);
   //   setDate(dateString);
   // };
   const onFinish = async (values: any) => {
-    const value1 = { ...values, dateOfBirth: date, [values.Profession]: true };
+    setLoading(true);
+    const value1 = { ...values, [values.Profession]: true };
     const { ...finalData } = value1;
 
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
       if (!apiBaseUrl) {
         errorAlert({
           error: { message: "API base URL is not set in .env.local" },
@@ -49,14 +41,19 @@ const Header = () => {
         body: JSON.stringify(finalData),
       });
       const addData = await response.json();
+      // console.log(addData);
       if (addData.success) {
         successAlert({ message: addData?.message });
         router.push(`optimizable?email=${values?.email}`);
+      } else if (addData.status === 401) {
+        setNotOptimizable(true);
       } else {
         errorAlert({ error: addData });
       }
     } catch (error: any) {
       errorAlert({ error });
+    } finally {
+      setLoading(false);
     }
   };
   // const handleClose = () => setNotOptimizable(false);
@@ -79,12 +76,19 @@ const Header = () => {
           PREMIUM WITH THE SAME BENEFITS, WITHOUT OBLIGATION
         </h2>
         <div className="bg-[#3c5267c5] border border-yellow-400 p-6 rounded-lg max-w-4xl mx-auto xl:p-10">
-          <Form layout="vertical" onFinish={onFinish} style={{ marginTop: 20 }}>
+          <Form
+            layout="vertical"
+            onFinish={onFinish}
+            style={{ marginTop: 20 }}
+            requiredMark={false}
+          >
             <Row gutter={[28, 16]}>
               <Col xs={24} md={12}>
                 <Form.Item
                   name="name"
-                  rules={[{ required: true, message: "Please input your name!" }]}
+                  rules={[
+                    { required: true, message: "Please input your name!" },
+                  ]}
                 >
                   <Input size={"large"} placeholder="Name" />
                 </Form.Item>
@@ -93,7 +97,12 @@ const Header = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   name="insurance"
-                  rules={[{ required: true, message: "Please input your current insurance!" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your current insurance!",
+                    },
+                  ]}
                 >
                   <Input size={"large"} placeholder="Current Insurance" />
                 </Form.Item>
@@ -102,7 +111,9 @@ const Header = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   name="title"
-                  rules={[{ required: true, message: "Please input your title!" }]}
+                  rules={[
+                    { required: true, message: "Please input your title!" },
+                  ]}
                 >
                   <Input size={"large"} placeholder="Title" />
                 </Form.Item>
@@ -111,33 +122,56 @@ const Header = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   name="terif"
-                  rules={[{ required: true, message: "Please input the name of the tariff!" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the name of the tariff!",
+                    },
+                  ]}
                 >
                   <Input size="large" placeholder="Name of the terif" />
                 </Form.Item>
               </Col>
-              {/* <Col xs={24} md={12}>
-                <Form.Item
-                  name="dateOfBirth"
-                  rules={[{ required: true, message: "Please select your date of birth!" }]}
-                >
-                  <DatePicker
-                    onChange={onChange}
-                    size="large"
-                    style={{ width: "100%" }}
-                    type=""
-                    placeholder="Date Of Birth"
-                    disabledDate={(current) => current && current.isAfter(new Date())}
-                  />
-                </Form.Item>
-              </Col> */}
-               <Col xs={24} md={12}>
-                <Form.Item
-                  name="email"
-                  rules={[{ required: true, message: "Please input your email!" }, { type: 'email', message: 'Please enter a valid email!' }]}
-                >
-                  <Input size={"large"} placeholder="Email" />
-                </Form.Item>
+
+              <Col xs={24} md={12}>
+                <Row gutter={[16, 16]}>
+                  <Col xs={12}>
+                  <Form.Item
+                      name="email"
+                      rules={[
+                        { required: true, message: "Please input your email!" },
+                        {
+                          type: "email",
+                          message: "Please enter a valid email!",
+                        },
+                      ]}
+                    >
+                      <Input size={"large"} placeholder="Email " />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={12}>
+                    <Form.Item
+                      name="dateOfBirth"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select your date of birth!",
+                        },
+                      ]}
+                    >
+                      <DatePicker
+                        // onChange={onChange}
+                        size="large"
+                        style={{ width: "100%"}}
+                        type=""
+                        placeholder="Date Of Birth"
+                        disabledDate={(current) =>
+                          current && current.isAfter(new Date())
+                        }
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
               </Col>
 
               <Col xs={24} md={12}>
@@ -145,7 +179,12 @@ const Header = () => {
                   <Col xs={12}>
                     <Form.Item
                       name="monthlyPremium"
-                      rules={[{ required: true, message: "Please input your monthly premium!" }]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your monthly premium!",
+                        },
+                      ]}
                     >
                       <Input size="large" placeholder="Monthly Premium" />
                     </Form.Item>
@@ -153,7 +192,12 @@ const Header = () => {
                   <Col xs={12}>
                     <Form.Item
                       name="deductible"
-                      rules={[{ required: true, message: "Please input your deductible!" }]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your deductible!",
+                        },
+                      ]}
                     >
                       <Input size="large" placeholder="Deductible" />
                     </Form.Item>
@@ -164,12 +208,23 @@ const Header = () => {
               <Col xs={24} md={12}>
                 <Form.Item
                   name="Profession"
-                  label={<span className="text-2xl text-white font-bold">Profession</span>}
-                  rules={[{ required: true, message: "Please select your profession!" }]}
+                  label={
+                    <span className="text-2xl text-white font-bold">
+                      Profession
+                    </span>
+                  }
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select your profession!",
+                    },
+                  ]}
                 >
                   <Radio.Group>
                     <Radio value="isSelfEmployed">
-                      <span className="text-white font-bold">Self Employee</span>
+                      <span className="text-white font-bold">
+                        Self Employee
+                      </span>
                     </Radio>
                     <Radio value="isEmployed">
                       <span className="text-white font-bold">Employee</span>
@@ -192,6 +247,7 @@ const Header = () => {
 
               <Col span={24} className="text-center">
                 <Button
+                  loading={loading}
                   type="primary"
                   htmlType="submit"
                   size="large"
@@ -205,7 +261,11 @@ const Header = () => {
         </div>
       </Container>
       <Modal
-        title={<h1 className="text-2xl text-center text-heading w-full lg:text-4xl mt-3">Thank you for your request.</h1>}
+        title={
+          <h1 className="text-2xl text-center text-heading w-full lg:text-4xl mt-3">
+            Thank you for your request.
+          </h1>
+        }
         centered
         open={notOptimizable}
         footer={null}
@@ -217,7 +277,8 @@ const Header = () => {
       >
         <div className="text-center lg:px-10 pb-5 pt-7 space-y-4">
           <p className="text-xl font-medium md:text-2xl">
-            Unfortunately, you are already in the most cost-effective plan for you, and optimization is not possible in your case.
+            Unfortunately, you are already in the most cost-effective plan for
+            you, and optimization is not possible in your case.
           </p>
           <p className="text-2xl text-hash font-medium md:text-2xl">
             Nevertheless, we appreciate your time and wish you all the best.
@@ -225,7 +286,9 @@ const Header = () => {
           <p>
             <span className="text-hash">Your</span>
             <br />
-            <span className="text-lg font-medium md:text-xl">kv-tarif24 Team</span>
+            <span className="text-lg font-medium md:text-xl">
+              kv-tarif24 Team
+            </span>
           </p>
           <div className="flex justify-center pt-5">
             <Button

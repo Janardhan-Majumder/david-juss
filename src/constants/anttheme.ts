@@ -58,7 +58,7 @@ export const mainTheme: ThemeConfig = {
     },
     DatePicker: {
       controlHeightLG: 52,
-      borderRadiusLG: 2,
+      borderRadius: 2,
       colorTextPlaceholder: "#3C5267",
     },
     // InputPassword: {

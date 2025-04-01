@@ -1,46 +1,141 @@
 "use client";
-import React, { useRef, useEffect, useState, use } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import Container from "@/components/Container";
 import Advertise from "@/components/Home/Advertise";
-import { Button, DatePicker, DatePickerProps, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import Image from "next/image";
-import SignatureCanvas from "@uiw/react-signature";
-
-type Params = Promise<{ id: string }>;
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
-
-export type TPageProps = { params: Params; searchParams: SearchParams };
+import SignatureCanvas, { SignatureRef } from "@uiw/react-signature";
+import html2canvas from "html2canvas";
+import { errorAlert, successAlert, TResError } from "@/lib/alert";
+import { TPageProps } from "@/types/common.type";
+import { fetchGetApi } from "@/lib/api";
+import { renderPDF } from "@/components/pdf/PdfDocument";
+import { useRouter } from "next/navigation";
+interface FormValues {
+  insuranceNumber: string;
+  phone: string;
+  ZIPCodePlace: string;
+  StreetHouseNumber: string;
+}
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const Page = (props: TPageProps) => {
-  const $svg = useRef<SignatureCanvas | null>(null); 
-  const [date, setDate] = useState(null);
+  const [form] = Form.useForm();
+  const router = useRouter();
   const { email } = use(props.searchParams);
-  console.log(email, date);
+  const [infoLoading, setInfoLoading] = useState(true);
+  const [muLoading, setMuLoading] = useState(false);
+  const captureRef = useRef<HTMLDivElement | null>(null);
+  const signatureRef = useRef<SignatureRef | null>(null);
+  const [insuranceData, setInsuranceData] = useState<{
+    [key: string]: any;
+  } | null>(null);
+  const [points, setPoints] = useState<number[][]>([]);
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString: any) => {
-    console.log(dateString);
-    setDate(dateString);
+  const captureFunc = async () => {
+    if (!captureRef.current) return null;
+    const canvas = await html2canvas(captureRef.current);
+    const dataUrl = canvas.toDataURL("image/png");
+    const [header, base64] = dataUrl.split(",");
+    const mime = header.match(/:(.*?);/)?.[1] || "image/png";
+    const u8arr = new Uint8Array(
+      atob(base64)
+        .split("")
+        .map((char) => char.charCodeAt(0))
+    );
+    return {
+      dataUrl,
+      file: new File([new Blob([u8arr], { type: mime })], "signature.png", {
+        type: mime,
+      }),
+    };
   };
 
-  // Function to download the signature
-  const handleDownload = () => {
-    if ($svg.current) {
-      const dataUrl = $svg.current.getSignatureDataUrl(); // Get the signature image URL
-      const link = document.createElement("a");
-      link.href = dataUrl; // Set the data URL as the link href
-      link.download = "signature.png"; // Specify the filename for download
-      link.click(); // Trigger the download
+  const handleClear = () => {
+    signatureRef.current?.clear();
+    form.resetFields();
+    // setSignatureData(null);
+    setPoints([]);
+  };
+
+  const handlePoints = (data: number[][]) => {
+    if (data.length > 0) {
+      setPoints([...points, ...data]);
+    }
+  };
+  const PDFInfo = {
+    fullName: "John Doe",
+    profession: "Software Engineer",
+    street: "123 Main St",
+    houseNumber: "45B",
+    healthInsuranceCompany: "HealthCare Inc.",
+    postalCode: "12345",
+    city: "New York",
+    tariffs: "Basic Plan",
+    dateOfBirth: "1990-05-15",
+    insuranceNumber: "HCI123456789", // Replace with actual signature image URL
+  };
+  const onFinish = async (values: FormValues): Promise<void> => {
+    setMuLoading(true);
+    try {
+      if (points.length < 1) {
+        throw new Error("Signature is required!");
+      }
+      const signatureResult = await captureFunc();
+      if (signatureResult?.dataUrl && insuranceData) {
+        const padfResult = await renderPDF({
+          PDFInfo: { ...PDFInfo, signature: signatureResult?.dataUrl },
+        });
+        // console.log(padfResult.blob, URL.createObjectURL(padfResult.blob));
+        const formData = new FormData();
+        const payload = {
+          name: insuranceData?.name,
+          email: insuranceData?.email,
+          pdf: padfResult.file, // will be pdf
+          signature: signatureResult.file, // will be pdf
+          ...values,
+        };
+        for (const key in payload) {
+          const element = payload[key];
+          formData.append(key, element);
+        }
+        // console.log(URL.createObjectURL(formData.get("signature") as File))
+        const res = await fetch(apiBaseUrl + `/submit-information/add`, {
+          method: "POST",
+          body: formData, // No need to set Content-Type manually
+        });
+        const data = await res.json();
+        if (!data?.success) {
+          errorAlert({ error: data as TResError });
+        } else {
+          successAlert({ message: "Successfully Submited!" });
+          handleClear();
+          router.push("/");
+        }
+      } else {
+        throw new Error("Incomplete payload!");
+      }
+    } catch (error) {
+      console.log(error);
+      errorAlert({ error: error as TResError });
+    } finally {
+      setMuLoading(false);
     }
   };
 
-  const handle = () => {
-    $svg.current?.clear();
-  };
-
-  const onFinish = (values: any) => {
-    console.log("Form values:", values);
-  }; // Only prints if email is available
-
+  useEffect(() => {
+    const fetchfunc = async () => {
+      try {
+        const res = await fetchGetApi(`/submit-terif/details?email=${email}`);
+        setInsuranceData(res?.data);
+      } catch (error) {
+        errorAlert({ error: error as TResError });
+      } finally {
+        setInfoLoading(false);
+      }
+    };
+    fetchfunc();
+  }, [email]);
   const benefitsList = [
     {
       text: "The verification is 100% free and non-binding for you.",
@@ -55,7 +150,13 @@ const Page = (props: TPageProps) => {
       icon: "check-icon.svg",
     },
   ];
-
+  if (infoLoading) {
+    return (
+      <div className=" h-[80vh] flex justify-center items-center  ">
+        Loading...
+      </div>
+    );
+  }
   return (
     <>
       <header className="relative">
@@ -100,7 +201,12 @@ const Page = (props: TPageProps) => {
             </div>
           </div>
           <div className="w-full mx-auto bg-[#3c5267c5] p-6 xl:p-10 rounded-lg border border-yellow-400">
-            <Form layout="vertical" onFinish={onFinish}>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={onFinish}
+              requiredMark={false}
+            >
               {/* <Form.Item name="birth_date" rules={[{ required: true }]}>
                 <DatePicker
                   size="large"
@@ -111,24 +217,15 @@ const Page = (props: TPageProps) => {
               </Form.Item> */}
 
               <Form.Item
-                name="dateOfBirth"
+                name="insuranceNumber"
                 rules={[
                   {
                     required: true,
-                    message: "Please select your date of birth!",
+                    message: "Please enter insurance number!",
                   },
                 ]}
               >
-                <DatePicker
-                  onChange={onChange}
-                  size="large"
-                  style={{ width: "100%" }}
-                  type=""
-                  placeholder="Date Of Birth"
-                  disabledDate={(current) =>
-                    current && current.isAfter(new Date())
-                  }
-                />
+                <Input size="large" placeholder="Insurance Number" />
               </Form.Item>
 
               <Form.Item name="phone" rules={[{ required: true }]}>
@@ -146,20 +243,27 @@ const Page = (props: TPageProps) => {
                     Create signature
                   </span>
                 }
+                // name={"signature"}
+                // rules={[{ required: true, message: "Signature is required!" }]}
               >
-                <SignatureCanvas ref={$svg} />
+                <div ref={captureRef}>
+                  <SignatureCanvas
+                    ref={signatureRef}
+                    onPointer={handlePoints}
+                  />
+                </div>
               </Form.Item>
               <div className="flex justify-end pb-2">
                 <button
                   type="button"
-                  onClick={handle}
+                  onClick={handleClear}
                   className="bg-playground active:bg-green-300 py-1 px-6 rounded-sm font-medium text-slate-500 active:text-red-500 transition-all"
                 >
                   Clear
                 </button>
-                <button onClick={handleDownload}>Download Signature</button>
               </div>
               <Button
+                loading={muLoading}
                 type="primary"
                 htmlType="submit"
                 size="large"

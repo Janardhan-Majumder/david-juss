@@ -4,6 +4,7 @@ import { Poppins, Roboto } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 import ThemeProvider from "@/lib/Providers/ThemeProvider";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   variable: "--roboto",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <AntdRegistry>
           <ThemeProvider>{children}</ThemeProvider>
         </AntdRegistry>
+        <Toaster />
       </body>
     </html>
   );
