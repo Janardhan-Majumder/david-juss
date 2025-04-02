@@ -150,6 +150,7 @@ const PdfDocument = ({ PDFInfo }: { PDFInfo: TPDFInfo }) => (
                   style={{
                     height: 9,
                     width: 10,
+                    border: "1px"
                   }}
                 />
                 Selbstständig{" "}
@@ -162,10 +163,10 @@ const PdfDocument = ({ PDFInfo }: { PDFInfo: TPDFInfo }) => (
                   style={{
                     height: 9,
                     width: 10,
+                    border: "1px"
                   }}
                 />
-                Beschäftigt
-                {" "}
+                Beschäftigt{" "}
                 <Image
                   src={
                     PDFInfo?.isRetired
@@ -175,6 +176,7 @@ const PdfDocument = ({ PDFInfo }: { PDFInfo: TPDFInfo }) => (
                   style={{
                     height: 9,
                     width: 10,
+                    border: "1px"
                   }}
                 />
                 Ruhestand
@@ -262,9 +264,17 @@ const PdfDocument = ({ PDFInfo }: { PDFInfo: TPDFInfo }) => (
         <View style={{ paddingLeft: "30px" }}>
           <Image
             src={PDFInfo.signature}
-            style={{ ...styles.logo, borderBottom: "1px", marginBottom: 6 }}
+            style={{ ...styles.logo, marginBottom: 2 }}
           />
-          <Text style={{ fontSize: "10px", textAlign: "center", width: 150 }}>
+          <Text
+            style={{
+              fontSize: "10px",
+              textAlign: "center",
+              width: 150,
+              borderTop: "1px",
+              paddingTop: 6,
+            }}
+          >
             Unterschrift
           </Text>
         </View>

@@ -2,7 +2,7 @@
 import React, { use, useEffect, useRef, useState } from "react";
 import Container from "@/components/Container";
 import Advertise from "@/components/Home/Advertise";
-import { Button, Form, Input } from "antd";
+import { Button, DatePicker, Form, Input } from "antd";
 import Image from "next/image";
 import SignatureCanvas, { SignatureRef } from "@uiw/react-signature";
 import html2canvas from "html2canvas";
@@ -79,14 +79,13 @@ const Page = (props: TPageProps) => {
             signature: signatureResult?.dataUrl,
           },
         });
-
         // return console.log(
-        // {
-        //   ...values,
-        //   ...insuranceData,
-        //   signature: signatureResult?.dataUrl,
-        // }
-        // URL.createObjectURL(pdfResult.file);
+        //   // {
+        //   //   ...values,
+        //   //   ...insuranceData,
+        //   //   signature: signatureResult?.dataUrl,
+        //   // }
+        //   URL.createObjectURL(pdfResult.file)
         // );
         const formData = new FormData();
         const payload = {
@@ -228,9 +227,38 @@ const Page = (props: TPageProps) => {
               >
                 <Input size="large" placeholder="Insurance Number" />
               </Form.Item>
-
               <Form.Item name="phone" rules={[{ required: true }]}>
                 <Input size="large" placeholder="Phone" />
+              </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  { required: true, message: "Please input your email!" },
+                  {
+                    type: "email",
+                    message: "Please enter a valid email!",
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="Email" />
+              </Form.Item>
+              <Form.Item
+                name="dateOfBirth"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select your date of birth!",
+                  },
+                ]}
+              >
+                <DatePicker
+                  size="large"
+                  style={{ width: "100%" }}
+                  placeholder="Date Of Birth"
+                  disabledDate={(current) =>
+                    current && current.isAfter(new Date())
+                  }
+                />
               </Form.Item>
               <Form.Item name="ZIPCodePlace" rules={[{ required: true }]}>
                 <Input size="large" placeholder="ZIP Code Place" />

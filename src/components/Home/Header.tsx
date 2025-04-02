@@ -2,7 +2,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import Container from "../Container";
-import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row } from "antd";
+import { Button, Col, Form, Input, Modal, Radio, Row } from "antd";
 import Image from "next/image";
 // import TextAnimation from "../ui/TextAnimation";
 import { useRouter } from "next/navigation";
@@ -106,38 +106,34 @@ const Header = () => {
                       <Input size="large" placeholder="Name" />
                     </Form.Item>
                   </Col>
-                  <Col xs={14}>
+                  <Col xs={24} md={24}>
                     <Form.Item
-                      name="email"
-                      rules={[
-                        { required: true, message: "Please input your email!" },
-                        {
-                          type: "email",
-                          message: "Please enter a valid email!",
-                        },
-                      ]}
-                    >
-                      <Input size="large" placeholder="Email" />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={10}>
-                    <Form.Item
-                      name="dateOfBirth"
+                      name="Profession"
+                      label={
+                        <span className="text-xl text-white font-bold">
+                          Profession
+                        </span>
+                      }
                       rules={[
                         {
                           required: true,
-                          message: "Please select your date of birth!",
+                          message: "Please select your profession!",
                         },
                       ]}
                     >
-                      <DatePicker
-                        size="large"
-                        style={{ width: "100%" }}
-                        placeholder="Date Of Birth"
-                        disabledDate={(current) =>
-                          current && current.isAfter(new Date())
-                        }
-                      />
+                      <Radio.Group>
+                        <Radio value="isSelfEmployed">
+                          <span className="text-white font-medium">
+                            Self Employed
+                          </span>
+                        </Radio>
+                        <Radio value="isEmployed">
+                          <span className="text-white font-medium">Employee</span>
+                        </Radio>
+                        <Radio value="isRetired">
+                          <span className="text-white font-medium">Retired</span>
+                        </Radio>
+                      </Radio.Group>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -202,36 +198,6 @@ const Header = () => {
               </Col>
 
               {/* Profession Selection */}
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="Profession"
-                  label={
-                    <span className="text-2xl text-white font-bold">
-                      Profession
-                    </span>
-                  }
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select your profession!",
-                    },
-                  ]}
-                >
-                  <Radio.Group>
-                    <Radio value="isSelfEmployed">
-                      <span className="text-white font-bold">
-                        Self Employed
-                      </span>
-                    </Radio>
-                    <Radio value="isEmployed">
-                      <span className="text-white font-bold">Employee</span>
-                    </Radio>
-                    <Radio value="isRetired">
-                      <span className="text-white font-bold">Retired</span>
-                    </Radio>
-                  </Radio.Group>
-                </Form.Item>
-              </Col>
 
               {/* Submit Button */}
               <Col span={24} className="text-center">
