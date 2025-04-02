@@ -63,18 +63,7 @@ const Page = (props: TPageProps) => {
       setPoints([...points, ...data]);
     }
   };
-  const PDFInfo = {
-    fullName: "John Doe",
-    profession: "Software Engineer",
-    street: "123 Main St",
-    houseNumber: "45B",
-    healthInsuranceCompany: "HealthCare Inc.",
-    postalCode: "12345",
-    city: "New York",
-    tariffs: "Basic Plan",
-    dateOfBirth: "1990-05-15",
-    insuranceNumber: "HCI123456789", // Replace with actual signature image URL
-  };
+
   const onFinish = async (values: FormValues): Promise<void> => {
     setMuLoading(true);
     try {
@@ -83,15 +72,27 @@ const Page = (props: TPageProps) => {
       }
       const signatureResult = await captureFunc();
       if (signatureResult?.dataUrl && insuranceData) {
-        const padfResult = await renderPDF({
-          PDFInfo: { ...PDFInfo, signature: signatureResult?.dataUrl },
+        const pdfResult = await renderPDF({
+          PDFInfo: {
+            ...values,
+            ...insuranceData,
+            signature: signatureResult?.dataUrl,
+          },
         });
-        // console.log(padfResult.blob, URL.createObjectURL(padfResult.blob));
+
+        // return console.log(
+        // {
+        //   ...values,
+        //   ...insuranceData,
+        //   signature: signatureResult?.dataUrl,
+        // }
+        // URL.createObjectURL(pdfResult.file);
+        // );
         const formData = new FormData();
         const payload = {
           name: insuranceData?.name,
           email: insuranceData?.email,
-          pdf: padfResult.file, // will be pdf
+          pdf: pdfResult.file, // will be pdf
           signature: signatureResult.file, // will be pdf
           ...values,
         };

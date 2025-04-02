@@ -84,23 +84,11 @@ const styles = StyleSheet.create({
   date: { width: 150, padding: 10, marginBottom: 6, borderBottom: "1px" },
 });
 
-interface DashboardPDFProps {
-  PDFInfo: {
-    fullName: string;
-    profession: string;
-    street: string;
-    houseNumber: string;
-    healthInsuranceCompany: string;
-    postalCode: string;
-    city: string;
-    tariffs: string;
-    dateOfBirth: string;
-    insuranceNumber: string;
-    signature: string;
-  };
-}
+type TPDFInfo = {
+  [key: string]: any;
+};
 
-const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
+const PdfDocument = ({ PDFInfo }: { PDFInfo: TPDFInfo }) => (
   <Document>
     <Page size="LEGAL" style={styles.page}>
       {/* Header */}
@@ -117,7 +105,7 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
             Ihr persönlicher Berater
           </Text>
           <View style={styles.inputField}>
-            <Text style={{ margin: "auto" }}>{PDFInfo.fullName}</Text>
+            <Text style={{ margin: "auto" }}>{PDFInfo.name}</Text>
           </View>
         </View>
       </View>
@@ -146,15 +134,51 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
               Vorname Name
             </Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.name}</Text>
             </View>
           </View>
           <View style={styles.formColumn}>
-            <Text style={{ fontSize: "10px", color: "#3C5267" }}>
-              Vorname Name
-            </Text>
-            <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+            <Text style={{ fontSize: "10px", color: "#3C5267" }}>Beruf</Text>
+            <View style={{ display: "flex", gap: 2, paddingTop: 6 }}>
+              <Text>
+                <Image
+                  src={
+                    PDFInfo?.isSelfEmployed
+                      ? "/images/check1.png"
+                      : "/images/uncheck.png"
+                  }
+                  style={{
+                    height: 9,
+                    width: 10,
+                  }}
+                />
+                Selbstständig{" "}
+                <Image
+                  src={
+                    PDFInfo?.isEmployed
+                      ? "/images/check1.png"
+                      : "/images/uncheck.png"
+                  }
+                  style={{
+                    height: 9,
+                    width: 10,
+                  }}
+                />
+                Beschäftigt
+                {" "}
+                <Image
+                  src={
+                    PDFInfo?.isRetired
+                      ? "/images/check1.png"
+                      : "/images/uncheck.png"
+                  }
+                  style={{
+                    height: 9,
+                    width: 10,
+                  }}
+                />
+                Ruhestand
+              </Text>
             </View>
           </View>
         </View>
@@ -164,15 +188,15 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
               Straße, Hausnummer
             </Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.StreetHouseNumber}</Text>
             </View>
           </View>
           <View style={styles.formColumn}>
             <Text style={{ fontSize: "10px", color: "#3C5267" }}>
-              Krankenversicherungsgesellschaft
+              Krankenkasse
             </Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.insurance}</Text>
             </View>
           </View>
         </View>
@@ -180,13 +204,13 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
           <View style={styles.formColumn}>
             <Text style={{ fontSize: "10px", color: "#3C5267" }}>PLZ, Ort</Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.ZIPCodePlace}</Text>
             </View>
           </View>
           <View style={styles.formColumn}>
             <Text style={{ fontSize: "10px", color: "#3C5267" }}>Tarife</Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.terif}</Text>
             </View>
           </View>
         </View>
@@ -196,7 +220,7 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
               Geburtsdatum
             </Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{new Date(PDFInfo.dateOfBirth).toDateString()}</Text>
             </View>
           </View>
           <View style={styles.formColumn}>
@@ -204,7 +228,7 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
               Versicherungsnummer
             </Text>
             <View style={styles.formField}>
-              <Text>{PDFInfo.fullName}</Text>
+              <Text>{PDFInfo.insuranceNumber}</Text>
             </View>
           </View>
         </View>
@@ -285,7 +309,7 @@ const PdfDocument: React.FC<DashboardPDFProps> = ({ PDFInfo }) => (
 //   const blobUrl = URL.createObjectURL(blob);
 //   return { blob, blobUrl };
 // };
-export const renderPDF = async ({ PDFInfo }: DashboardPDFProps) => {
+export const renderPDF = async ({ PDFInfo }: { PDFInfo: TPDFInfo }) => {
   const blob = await pdf(<PdfDocument PDFInfo={{ ...PDFInfo }} />).toBlob();
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();

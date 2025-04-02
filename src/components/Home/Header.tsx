@@ -83,60 +83,31 @@ const Header = () => {
             requiredMark={false}
           >
             <Row gutter={[28, 16]}>
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="name"
-                  rules={[
-                    { required: true, message: "Please input your name!" },
-                  ]}
-                >
-                  <Input size={"large"} placeholder="Name" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="insurance"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your current insurance!",
-                    },
-                  ]}
-                >
-                  <Input size={"large"} placeholder="Current Insurance" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="title"
-                  rules={[
-                    { required: true, message: "Please input your title!" },
-                  ]}
-                >
-                  <Input size={"large"} placeholder="Title" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={12}>
-                <Form.Item
-                  name="terif"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the name of the tariff!",
-                    },
-                  ]}
-                >
-                  <Input size="large" placeholder="Name of the terif" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={12}>
+              {/* Left Column */}
+              <Col xs={24} lg={12}>
                 <Row gutter={[16, 16]}>
-                  <Col xs={12}>
-                  <Form.Item
+                  <Col xs={24}>
+                    <Form.Item
+                      name="title"
+                      rules={[
+                        { required: true, message: "Please input your title!" },
+                      ]}
+                    >
+                      <Input size="large" placeholder="Title" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item
+                      name="name"
+                      rules={[
+                        { required: true, message: "Please input your name!" },
+                      ]}
+                    >
+                      <Input size="large" placeholder="Name" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={14}>
+                    <Form.Item
                       name="email"
                       rules={[
                         { required: true, message: "Please input your email!" },
@@ -146,10 +117,10 @@ const Header = () => {
                         },
                       ]}
                     >
-                      <Input size={"large"} placeholder="Email " />
+                      <Input size="large" placeholder="Email" />
                     </Form.Item>
                   </Col>
-                  <Col xs={12}>
+                  <Col xs={10}>
                     <Form.Item
                       name="dateOfBirth"
                       rules={[
@@ -160,10 +131,8 @@ const Header = () => {
                       ]}
                     >
                       <DatePicker
-                        // onChange={onChange}
                         size="large"
-                        style={{ width: "100%"}}
-                        type=""
+                        style={{ width: "100%" }}
                         placeholder="Date Of Birth"
                         disabledDate={(current) =>
                           current && current.isAfter(new Date())
@@ -174,8 +143,35 @@ const Header = () => {
                 </Row>
               </Col>
 
-              <Col xs={24} md={12}>
+              {/* Right Column */}
+              <Col xs={24} lg={12}>
                 <Row gutter={[16, 16]}>
+                  <Col xs={24}>
+                    <Form.Item
+                      name="insurance"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your current insurance!",
+                        },
+                      ]}
+                    >
+                      <Input size="large" placeholder="Current Insurance" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item
+                      name="terif"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the name of the tariff!",
+                        },
+                      ]}
+                    >
+                      <Input size="large" placeholder="Name of the tariff" />
+                    </Form.Item>
+                  </Col>
                   <Col xs={12}>
                     <Form.Item
                       name="monthlyPremium"
@@ -205,6 +201,7 @@ const Header = () => {
                 </Row>
               </Col>
 
+              {/* Profession Selection */}
               <Col xs={24} md={12}>
                 <Form.Item
                   name="Profession"
@@ -223,7 +220,7 @@ const Header = () => {
                   <Radio.Group>
                     <Radio value="isSelfEmployed">
                       <span className="text-white font-bold">
-                        Self Employee
+                        Self Employed
                       </span>
                     </Radio>
                     <Radio value="isEmployed">
@@ -236,15 +233,7 @@ const Header = () => {
                 </Form.Item>
               </Col>
 
-              {/* <Col xs={24} md={12}>
-                <Form.Item
-                  name="email"
-                  rules={[{ required: true, message: "Please input your email!" }, { type: 'email', message: 'Please enter a valid email!' }]}
-                >
-                  <Input size={"large"} placeholder="Email" />
-                </Form.Item>
-              </Col> */}
-
+              {/* Submit Button */}
               <Col span={24} className="text-center">
                 <Button
                   loading={loading}
