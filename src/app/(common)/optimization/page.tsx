@@ -79,14 +79,13 @@ const Page = (props: TPageProps) => {
             signature: signatureResult?.dataUrl,
           },
         });
-
         // return console.log(
-        // {
-        //   ...values,
-        //   ...insuranceData,
-        //   signature: signatureResult?.dataUrl,
-        // }
-        // URL.createObjectURL(pdfResult.file);
+        //   // {
+        //   //   ...values,
+        //   //   ...insuranceData,
+        //   //   signature: signatureResult?.dataUrl,
+        //   // }
+        //   URL.createObjectURL(pdfResult.file)
         // );
         const formData = new FormData();
         const payload = {
