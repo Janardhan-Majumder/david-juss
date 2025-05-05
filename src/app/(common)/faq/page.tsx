@@ -10,33 +10,57 @@ const Page = () => {
   const faqs = [
     {
       id: 1,
-      question: "What is KV-tarif24?",
+      question: "Ist die Optimierungsanfrage wirklich kostenlos?",
       answer:
-        "KV-tarif24 is an online platform that helps individuals optimize their private health insurance plans in Germany. By analyzing your current tariff and comparing it with other available options within your insurance provider, KV-tarif24 can help you save money while maintaining the same level of coverage.",
+        "Ja. Die Anfrage und die Angebotserstellung sind komplett kostenlos und unverbindlich. Erst wenn Sie sich aktiv für die Umsetzung entscheiden, wird ein Honorar fällig – das Sie direkt mit dem Optimierer abrechnen.",
     },
     {
       id: 2,
-      question: "How does the process work?",
+      question: "Muss ich meine Krankenversicherung wechseln?",
       answer:
-        "The process is simple and consists of a few steps: First, you provide details about your current private health insurance plan. Then, KV-tarif24's system analyzes whether you are eligible for a better tariff within your existing insurance provider. If a better tariff is available, KV-tarif24 will guide you through the process of switching, ensuring a smooth and hassle-free transition.",
+        "Nein. Die Tarifoptimierung erfolgt ausschließlich innerhalb Ihres aktuellen Versicherers. Ein Anbieterwechsel ist nicht nötig – und auch nicht sinnvoll, da dabei Altersrückstellungen verloren gehen können.",
     },
     {
       id: 3,
-      question: "Is it free to use KV-tarif24?",
+      question: "Bleiben meine Altersrückstellungen erhalten?",
       answer:
-        "Yes, using KV-tarif24 to check for better tariffs is completely free. You only pay a fee if you successfully switch to a more cost-effective plan and save money. This means there is no financial risk in using the service—if no savings are found, you pay nothing.",
+        "Ja, und das ist besonders wichtig! Da Sie bei Ihrer Versicherung bleiben, bleiben Ihre Altersrückstellungen vollständig erhalten – im Gegensatz zu einem Anbieterwechsel, bei dem große Teile verloren gehen könnten.",
     },
     {
       id: 4,
-      question: "Do I have to switch insurance providers?",
+      question: "Welche Ersparnis ist möglich?",
       answer:
-        "No, you do not need to change your insurance provider. KV-tarif24 focuses on optimizing your existing health insurance by finding better tariffs within your current provider’s options. This way, you can reduce your costs while keeping the same insurer and avoiding any disruption in coverage.",
+        "In der Praxis sind bis zu 35 % Beitragsersparnis pro Monat möglich – ohne Verlust von Leistungen. Auf die Laufzeit gerechnet kann das eine Ersparnis im mittleren fünfstelligen Bereich bedeuten.",
     },
     {
       id: 5,
-      question: "How do I know if my tariff is optimizable?",
+      question: "Muss ich mit Leistungseinbußen rechnen?",
       answer:
-        "KV-tarif24 will analyze your current health insurance plan based on various factors such as age, medical history, and contract terms. If there are alternative tariffs within your insurance provider that offer the same or better coverage at a lower price, you will be informed of these options. The platform ensures full transparency so you can make an informed decision about optimizing your plan.",
+        "In 96 % der Fälle erfolgt die Optimierung ohne Einschränkung bei den Leistungen. Das Ziel ist immer, Ihren Beitrag zu senken – nicht Ihre Absicherung.",
+    },
+    {
+      id: 6,
+      question: "Ist jeder Tarif optimierbar?",
+      answer:
+        "Nein. Etwa 85 % der Tarife sind grundsätzlich optimierbar. Manche Tarife – insbesondere der Standardtarif oder Basistarif – lassen sich nicht optimieren, da sie bereits gesetzlich reguliert sind oder keine Tarifalternativen innerhalb der Versicherung bieten. Ob eine Optimierung möglich ist, erkennen unsere Partner direkt anhand Ihrer Angaben im Anfrageformular.",
+    },
+    {
+      id: 7,
+      question: "Wie lange dauert es, bis ich ein Angebot erhalte?",
+      answer:
+        "In der Regel erhalten Sie innerhalb von 2 bis 4 Werktagen ein individuelles Optimierungsangebot von unserem Partner. In Einzelfällen – z. B. bei komplexeren Tarifen oder Rückfragen durch den Versicherer – kann es etwas länger dauern.\nSie werden in jedem Fall zeitnah per E-Mail informiert, sobald Ihr Angebot vorliegt.",
+    },
+    {
+      id: 8,
+      question: "Wer erhält meine Daten?",
+      answer:
+        "Ihre Angaben werden ausschließlich über HTTPS verschlüsselt übermittelt. Nur im Falle einer Angebotsannahme werden sie an den jeweiligen Partner weitergegeben.",
+    },
+    {
+      id: 9,
+      question: "Ist kv-tarif24.de ein Makler oder Honorarberater?",
+      answer:
+        "Nein. Wir sind ein neutraler Vermittler und begleiten Sie durch den gesamten Optimierungsprozess. Wir beraten nicht selbst, sondern wählen für Sie den passenden Partner aus.",
     },
   ];
   return (
@@ -55,7 +79,7 @@ const Page = () => {
       <Container parentClass="bg-[#EFEFEF] lg:px-8 pt-0 pb-20 lg:pb-24 relative">
         <div className="max-w-6xl mx-auto bg-background rounded-2xl shadow-md space-y-8 px-[5%] pt-16 pb-20 -mt-40">
           <h2 className="text-4xl lg:text-5xl font-bold font-roboto leading-normal lg:leading-normal text-center">
-            FREQUENTLY ASKED QUESTION
+          Häufig gestellte Fragen(FAQ){/* FREQUENTLY ASKED QUESTION */}
           </h2>
           <div className="flex flex-col space-y-5">
             {faqs.map((faq, index) => (

@@ -20,27 +20,27 @@ const WorksSection = () => {
     <>
       <Container className="space-y-6 lg:space-y-10">
         <SectionHeading text="HOW IT WORKS" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 max-w-7xl mx-auto text-xl xl:text-2xl">
           <div
             //   style={{
             //     clipPath: "polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%)",
             //   }}
-            className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-primary text-xl xl:text-3xl font-medium md:-mr-3 rounded md:[clip-path:polygon(0%_0%,90%_0%,100%_50%,90%_100%,0%_100%)]"
+            className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-primary font-medium md:-mr-3 rounded md:[clip-path:polygon(0%_0%,90%_0%,100%_50%,90%_100%,0%_100%)]"
           >
             <p className="max-w-xs mx-auto text-heading">
-              Fill out the form without obligation & receive a free mandate.
+              Sie füllen unser Onlineformular aus – schnell, anonym und sicher.
             </p>
           </div>
-          <div
-            className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-playground text-xl xl:text-3xl font-medium md:-mx-3 rounded md:[clip-path:polygon(90%_0%,100%_50%,90%_100%,0%_100%,10%_50%,0%_0%)]"
-          >
+          <div className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-playground font-medium md:-mx-3 rounded md:[clip-path:polygon(90%_0%,100%_50%,90%_100%,0%_100%,10%_50%,0%_0%)]">
             <p className="max-w-xs mx-auto text-heading">
-              Receive an offer and discuss it with a qualified advisor.
+              Wir wählen auf dieser Basis den passenden Optimierungspartner für
+              Sie aus.
             </p>
           </div>
-          <div className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-primary text-xl xl:text-3xl font-medium md:-ml-3 rounded md:[clip-path:polygon(100%_0,100%_50%,100%_100%,0%_100%,10%_50%,0%_0%)]">
+          <div className="py-6 lg:py-10 px-10 flex items-center justify-center text-center bg-primary font-medium md:-ml-3 rounded md:[clip-path:polygon(100%_0,100%_50%,100%_100%,0%_100%,10%_50%,0%_0%)]">
             <p className="max-w-xs mx-auto text-heading">
-              Request a reduction and save up to 35% permanently.
+              Sie erhalten innerhalb von 2–4 Werktagen ein kostenloses und
+              unverbindliches Angebot.
             </p>
           </div>
         </div>
@@ -84,7 +84,9 @@ const WorksSection = () => {
             <h2 className="text-4xl lg:text-6xl font-semibold text-white">
               2753
             </h2>
-            <p className="text-hash">Successful optimizations in the last 365 days</p>
+            <p className="text-hash">
+              Successful optimizations in the last 365 days
+            </p>
           </motion.div>
         </div>
       </Container>

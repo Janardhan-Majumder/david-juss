@@ -6,28 +6,27 @@ import { cn } from "@/lib/utils";
 const Advertise = ({ className }: { className?: string }) => {
   const advertiseItems = [
     {
-      title: "Free & Non-Binding",
-      description:
-        "The service is completely free and does not require any commitment.",
+      title: "Kostenlos & unverbindlich",
+      description: `Die Anfrage sowie das Optimierungsangebot sind 100 % kostenlos und unverbindlich. Sie gehen keine Verpflichtung ein und entscheiden selbst, ob Sie das Angebot annehmen möchten.`,
       icon: "/advertise/free.png",
     },
     {
-      title: "Save on Premiums",
+      title: "Bis zu 35 % sparen",
       description:
-        "Users can save approximately 10-35% on their monthly insurance premiums.",
+        "In 96 % der Fälle gelingt die Optimierung ohne Einschränkungen beim Leistungsumfang – bei einer möglichen monatlichen Ersparnis von bis zu 35 %. Das bedeutet oft eine Ersparnis im fünfstelligen Bereich über die Laufzeit.",
       icon: "/advertise/save.png",
     },
     {
-      title: "Neutral Oversight",
+      title: "Neutraler Vermittler ",
       description:
-        "The process is monitored by an independent and neutral partner to ensure fairness.",
+        "kv-tarif24.de ist kein Makler oder Honorarberater, sondern ein neutraler Vermittler. Wir vermitteln Ihnen den passenden Optimierungspartner und begleiten Sie transparent und unabhängig durch den gesamten Prozess.",
       icon: "/advertise/neutral.png",
       //   icon: require(""),
     },
     {
-      title: "Quick & Easy Process",
+      title: "Optimierung ohne Anbieterwechsel",
       description:
-        "Enjoy a seamless and optimized insurance experience without complications.",
+        "Die Tarifoptimierung erfolgt ausschließlich innerhalb Ihrer bestehenden Versicherung. Dadurch bleiben Ihre Versicherungsnummer und Altersrückstellungen vollständig erhalten – ein großer Vorteil gegenüber einem Wechsel.",
       icon: "/advertise/quick.png",
     },
   ];
