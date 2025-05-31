@@ -19,7 +19,9 @@ const WorksSection = () => {
   return (
     <>
       <Container className="space-y-6 lg:space-y-10">
-        <SectionHeading text="HOW IT WORKS" />
+        <SectionHeading
+          text="WIE ES FUNKTIONIERT"
+        />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 max-w-7xl mx-auto text-xl xl:text-2xl">
           <div
             //   style={{
@@ -44,48 +46,64 @@ const WorksSection = () => {
             </p>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto grid grid-cols-6 lg:grid-cols-11 gap-5 pt-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-6 lg:grid-cols-12 gap-3 lg:gap-5 pt-8">
           {/* Left Text Box */}
           <motion.div
             {...fadeUpAnimation}
             className="col-span-6 lg:col-span-5 bg-playground rounded-lg space-y-3 p-6 lg:p-10"
           >
             <h2 className="text-2xl lg:text-3xl font-semibold text-heading font-poppins">
-              Your Advantages
+              Ihre Vorteile auf einen Blick
             </h2>
             <p className="text-hash">
-              With our help, you can easily optimize your insurance and reduce
-              costs without changing your provider. We analyze your current plan
-              and find the best savings opportunities for you. Fast, secure, and
-              free. <br /> <br /> By comparing multiple offers simultaneously,
-              we ensure maximum savings while keeping your benefits unchanged.
+              Mit kv-tarif24.de optimieren Sie Ihre private Krankenversicherung
+              <span className="font-medium">
+                schnell, sicher und ohne Risiko
+              </span>{" "}
+              – und das{" "}
+              <span className="font-medium">
+                ohne die Versicherung zu wechseln
+              </span>
+              . Sie profitieren von einer unabhängigen Prüfung,{" "}
+              <span className="font-medium">
+                kostenloser Angebotserstellung
+              </span>{" "}
+              und maximaler Transparenz.
             </p>
           </motion.div>
 
           {/* Stats Box 1 */}
           <motion.div
             {...staggeredAnimation(0.3)}
-            className="col-span-3 bg-primary rounded-lg space-y-3 p-6 lg:p-8 text-center h-fit"
+            className="col-span-3 bg-primary rounded-lg space-y-3 p-4 sm:p-6 lg:p-8 text-center h-fit"
           >
-            <h2 className="text-4xl lg:text-6xl font-semibold text-white">
-              28%
+            <h2 className="text-lg lg:text-xl font-bold text-heading font-poppins text-white">
+              Beitrag senken – Leistung behalten
             </h2>
             <p className="text-hash">
-              Average savings on the monthly contribution of all optimized
-              customers
+              In bis zu <span className="font-medium"> 96 % der Fälle </span>
+              gelingt die Optimierung ohne Leistungsverlust – bei einer
+              möglichen Ersparnis von bis zu 35 % im Monat.
             </p>
           </motion.div>
 
           {/* Stats Box 2 */}
           <motion.div
             {...staggeredAnimation(0.6)}
-            className="col-span-3 bg-[#78C6C8] rounded-lg space-y-4 p-6 lg:p-8 text-center h-fit"
+            className="col-span-3 lg:col-span-4 bg-[#78C6C8] rounded-lg space-y-4 p-4 sm:p-6 lg:p-8 text-center h-fit"
           >
-            <h2 className="text-4xl lg:text-6xl font-semibold text-white">
-              2753
+            <h2 className="text-lg lg:text-xl font-bold text-heading font-poppins text-white">
+              Sicher, diskret & ohne Verpflichtung
             </h2>
             <p className="text-hash">
-              Successful optimizations in the last 365 days
+              Ihre Daten werden{" "}
+              <span className="font-medium"> verschlüsselt übertragen </span>{" "}
+              und nur bei Angebotsannahme weitergegeben.{" "}
+              <span className="font-medium">
+                {" "}
+                Keine Beratungspflicht, kein Vertragsdruck{" "}
+              </span>
+              .
             </p>
           </motion.div>
         </div>

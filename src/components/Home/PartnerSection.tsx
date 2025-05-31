@@ -26,7 +26,7 @@ const PartnerSection = () => {
   ];
   return (
     <Container className="space-y-9">
-      <SectionHeading text="PARTNERS" />
+      <SectionHeading text="PKV Optimierung" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 justify-between items-center">
         {partners.map((item, index: number) => (
           <div key={index} className="max-w-36 mx-auto">

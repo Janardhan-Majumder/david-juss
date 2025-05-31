@@ -2,7 +2,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import Container from "../Container";
-import { Button, Col, Form, Input, Modal, Radio, Row } from "antd";
+import { Button, Col, Form, Input, Modal, Radio, Row, Select } from "antd";
 import Image from "next/image";
 // import TextAnimation from "../ui/TextAnimation";
 import { useRouter } from "next/navigation";
@@ -70,10 +70,17 @@ const Header = () => {
         fill
         sizes="100vw"
       />
-      <Container className="space-y-10 xl:space-y-14">
-        <h2 className="text-2xl text-center text-white font-roboto font-semibold leading-normal lg:leading-normal lg:text-5xl max-w-6xl md:leading-normal md:text-3xl mx-auto">
-          FIND THE RIGHT PROVIDER TO REDUCE YOUR EXISTING HEALTH INSURANCE
-          PREMIUM WITH THE SAME BENEFITS, WITHOUT OBLIGATION
+      <Container className="space-y-10 xl:space-y-12">
+        <h2 className="text-center text-white font-roboto font-medium leading-normal lg:leading-normal text-xl md:text-2xl lg:text-4xl max-w-6xl md:leading-normal mx-auto">
+          <span className="font-semibold">
+            Sparen Sie dauerhaft Beiträge – ohne Ihre Versicherung zu wechseln
+          </span>
+          . Füllen Sie das kurze Formular aus und erhalten Sie{" "}
+          <span className="font-semibold">
+            ein kostenloses, unverbindliches Angebot zur Optimierung Ihrer
+            privaten Krankenversicherung
+          </span>{" "}
+          – individuell, diskret und sicher.
         </h2>
         <div className="bg-[#3c5267c5] border border-yellow-400 p-6 rounded-lg max-w-4xl mx-auto xl:p-10">
           <Form
@@ -93,45 +100,58 @@ const Header = () => {
                         { required: true, message: "Please input your title!" },
                       ]}
                     >
-                      <Input size="large" placeholder="Title" />
+                      <Select
+                        size="large"
+                        placeholder="Title"
+                        options={[
+                          { value: "Dr.", label: "Dr." },
+                          { value: "Prof.", label: "Prof." },
+                          { value: "Prof. Dr.", label: "Prof. Dr." },
+                        ]}
+                      />
                     </Form.Item>
                   </Col>
                   <Col xs={24}>
                     <Form.Item
                       name="name"
                       rules={[
-                        { required: true, message: "Please input your name!" },
+                        { required: true, message: "Name ist erforderlich!" },
                       ]}
                     >
-                      <Input size="large" placeholder="Name" />
+                      <Input size="large" placeholder="Vollständiger Name" />
                     </Form.Item>
                   </Col>
+
                   <Col xs={24} md={24}>
                     <Form.Item
                       name="Profession"
                       label={
                         <span className="text-xl text-white font-bold">
-                          Profession
+                          Beruf :
                         </span>
                       }
                       rules={[
                         {
                           required: true,
-                          message: "Please select your profession!",
+                          message: "Beruf ist erforderlich!",
                         },
                       ]}
                     >
                       <Radio.Group>
                         <Radio value="isSelfEmployed">
                           <span className="text-white font-medium">
-                            Self Employed
+                            Selbstständig
                           </span>
                         </Radio>
                         <Radio value="isEmployed">
-                          <span className="text-white font-medium">Employee</span>
+                          <span className="text-white font-medium">
+                            Angestellter
+                          </span>
                         </Radio>
                         <Radio value="isRetired">
-                          <span className="text-white font-medium">Retired</span>
+                          <span className="text-white font-medium">
+                            Rentner
+                          </span>
                         </Radio>
                       </Radio.Group>
                     </Form.Item>
@@ -148,11 +168,14 @@ const Header = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input your current insurance!",
+                          message: "Insurance company ist erforderlich!",
                         },
                       ]}
                     >
-                      <Input size="large" placeholder="Current Insurance" />
+                      <Input
+                        size="large"
+                        placeholder="Versicherungsgesellschaft"
+                      />
                     </Form.Item>
                   </Col>
                   <Col xs={24}>
@@ -161,11 +184,11 @@ const Header = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input the name of the tariff!",
+                          message: "Name Ihres Tarifes ist erforderlich!",
                         },
                       ]}
                     >
-                      <Input size="large" placeholder="Name of the tariff" />
+                      <Input size="large" placeholder="Name Ihres Tarifes" />
                     </Form.Item>
                   </Col>
                   <Col xs={12}>
@@ -174,11 +197,11 @@ const Header = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input your monthly premium!",
+                          message: "Monatlicher Beitrag ist erforderlich!",
                         },
                       ]}
                     >
-                      <Input size="large" placeholder="Monthly Premium" />
+                      <Input size="large" placeholder="Monatlicher Beitrag" />
                     </Form.Item>
                   </Col>
                   <Col xs={12}>
@@ -187,11 +210,11 @@ const Header = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input your deductible!",
+                          message: "Selbstbeteiligung ist erforderlich!",
                         },
                       ]}
                     >
-                      <Input size="large" placeholder="Deductible" />
+                      <Input size="large" placeholder="Selbstbeteiligung" />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -208,7 +231,7 @@ const Header = () => {
                   size="large"
                   className="w-full font-bold max-w-96"
                 >
-                  CHECK YOUR TARIFF
+                  {"Jetzt unverbindlich prüfen".toUpperCase()}
                 </Button>
               </Col>
             </Row>
@@ -216,11 +239,11 @@ const Header = () => {
         </div>
       </Container>
       <Modal
-        title={
-          <h1 className="text-2xl text-center text-heading w-full lg:text-4xl mt-3">
-            Thank you for your request.
-          </h1>
-        }
+        // title={
+        //   <h1 className="text-2xl text-center text-heading w-full lg:text-4xl mt-3">
+        //     Thank you for your request.
+        //   </h1>
+        // }
         centered
         open={notOptimizable}
         footer={null}
@@ -231,18 +254,42 @@ const Header = () => {
         width={"90%"}
       >
         <div className="text-center lg:px-10 pb-5 pt-7 space-y-4">
-          <p className="text-xl font-medium md:text-2xl">
-            Unfortunately, you are already in the most cost-effective plan for
-            you, and optimization is not possible in your case.
-          </p>
-          <p className="text-2xl text-hash font-medium md:text-2xl">
-            Nevertheless, we appreciate your time and wish you all the best.
-          </p>
+          <div className="md:text-lg">
+            <span className="font-medium">
+              Leider ist für Ihren aktuellen Tarif keine Optimierung möglich
+            </span>
+            <p className="text-xl md:text-2xl py-2">
+              Vielen Dank für Ihre Anfrage und das Vertrauen in kv-tarif24.de.
+            </p>
+            Nach Auswertung Ihrer Angaben müssen wir Ihnen mitteilen, dass{" "}
+            <span className="font-medium">
+              eine Optimierung Ihres aktuellen PKV-Tarifs derzeit leider nicht
+              möglich ist
+            </span>
+            . Dies betrifft insbesondere bestimmte{" "}
+            <span className="font-medium">Standard- oder Basistarife</span>, die
+            gesetzlich reguliert sind und keine internen Tarifalternativen
+            zulassen. <br /> Bitte seien Sie versichert: Wir prüfen jede Anfrage
+            sorgfältig und geben{" "}
+            <span className="font-medium">
+              nur dann ein Optimierungsangebot ab, wenn eine tatsächliche
+              Ersparnis ohne Leistungsverlust realistisch und sinnvoll ist
+            </span>
+            . Sollte sich Ihre Tariflage in Zukunft ändern, freuen wir uns, wenn
+            Sie erneut auf uns zukommen. Gerne halten wir Sie auch auf dem
+            Laufenden –{" "}
+            <span className="font-medium">
+              tragen Sie sich einfach in unseren Info-Service ein
+            </span>
+            .
+          </div>
           <p>
-            <span className="text-hash">Your</span>
+            <span className="text-hash">
+              Vielen Dank und weiterhin alles Gute!
+            </span>
             <br />
-            <span className="text-lg font-medium md:text-xl">
-              kv-tarif24 Team
+            <span className="md:text-lg font-medium">
+              Ihr Team von kv-tarif24.de
             </span>
           </p>
           <div className="flex justify-center pt-5">
