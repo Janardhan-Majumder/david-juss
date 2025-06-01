@@ -221,55 +221,65 @@ const Page = (props: TPageProps) => {
                 rules={[
                   {
                     required: true,
-                    message: "Please enter insurance number!",
+                    message: "Versicherungsnummer ist erforderlich!",
                   },
                 ]}
               >
-                <Input size="large" placeholder="Insurance Number" />
+                <Input size="large" placeholder="Versicherungsnummer" />
               </Form.Item>
               <Form.Item name="phone" rules={[{ required: true }]}>
-                <Input size="large" placeholder="Phone" />
+                <Input size="large" placeholder="Telefonnummer" />
               </Form.Item>
               <Form.Item
                 name="email"
                 rules={[
-                  { required: true, message: "Please input your email!" },
+                  { required: true, message: "E-mail ist erforderlich!" },
                   {
                     type: "email",
-                    message: "Please enter a valid email!",
+                    message: "Geben Sie eine gültige E-Mail-Adresse ein!",
                   },
                 ]}
               >
-                <Input size="large" placeholder="Email" />
+                <Input size="large" placeholder="E-Mail" />
               </Form.Item>
               <Form.Item
                 name="dateOfBirth"
                 rules={[
                   {
                     required: true,
-                    message: "Please select your date of birth!",
+                    message: "Geburtsdatum ist erforderlich!",
                   },
                 ]}
               >
                 <DatePicker
                   size="large"
                   style={{ width: "100%" }}
-                  placeholder="Date Of Birth"
+                  placeholder="Geburtsdatum "
                   disabledDate={(current) =>
                     current && current.isAfter(new Date())
                   }
                 />
               </Form.Item>
-              <Form.Item name="ZIPCodePlace" rules={[{ required: true }]}>
-                <Input size="large" placeholder="ZIP Code Place" />
+              <Form.Item
+                name="StreetHouseNumber"
+                rules={[
+                  { required: true, message: "Straße ist erforderlich!" },
+                ]}
+              >
+                <Input size="large" placeholder="Straße" />
               </Form.Item>
-              <Form.Item name="StreetHouseNumber" rules={[{ required: true }]}>
-                <Input size="large" placeholder="Street House Number" />
+              <Form.Item
+                name="ZIPCodePlace"
+                rules={[
+                  { required: true, message: "PLZ und Ort ist erforderlich!" },
+                ]}
+              >
+                <Input size="large" placeholder="PLZ und Ort" />
               </Form.Item>
               <Form.Item
                 label={
                   <span className="text-white text-base lg:text-lg">
-                    Create signature
+                    Unterschrift
                   </span>
                 }
                 // name={"signature"}
@@ -288,7 +298,7 @@ const Page = (props: TPageProps) => {
                   onClick={handleClear}
                   className="bg-playground active:bg-green-300 py-1 px-6 rounded-sm font-medium text-slate-500 active:text-red-500 transition-all"
                 >
-                  Clear
+                  Klar
                 </button>
               </div>
               <Button
@@ -298,7 +308,7 @@ const Page = (props: TPageProps) => {
                 size="large"
                 className="font-bold w-full"
               >
-                SUBMIT
+                Jetzt Angebot sichern
               </Button>
             </Form>
           </div>

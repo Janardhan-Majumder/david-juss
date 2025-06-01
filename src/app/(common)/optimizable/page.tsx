@@ -12,7 +12,7 @@ const page = async (props: TPageProps) => {
   const { email } = await props.searchParams;
   console.log(email);
 
-  const text = "Congratulations";
+  const text = "Gute Nachrichten";
   const items = [
     {
       title: "Phone Number",
@@ -49,7 +49,7 @@ const page = async (props: TPageProps) => {
             ))}
           </div>
           <h2 className="text-4xl lg:text-6xl text-primary font-medium">
-            Your Insurance is Optimizable
+            Ihr Tarif ist optimierbar!
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-white lg:max-w-[70%] mx-auto leading-normal lg:leading-normal">
             Great news! We have analyzed your details, and your current
