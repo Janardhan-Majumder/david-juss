@@ -97,7 +97,7 @@ const Header = () => {
                     <Form.Item
                       name="title"
                       rules={[
-                        { required: true, message: "Please input your title!" },
+                        { required: true, message: "Title ist erforderlich!" },
                       ]}
                     >
                       <Select
@@ -107,6 +107,23 @@ const Header = () => {
                           { value: "Dr.", label: "Dr." },
                           { value: "Prof.", label: "Prof." },
                           { value: "Prof. Dr.", label: "Prof. Dr." },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item
+                      name="salutation"
+                      rules={[
+                        { required: true, message: "Anrede ist erforderlich!" },
+                      ]}
+                    >
+                      <Select
+                        size="large"
+                        placeholder="Anrede"
+                        options={[
+                          { value: "Frau", label: "Frau" },
+                          { value: "Herr", label: "Herr" },
                         ]}
                       />
                     </Form.Item>
